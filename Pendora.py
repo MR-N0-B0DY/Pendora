@@ -25,16 +25,12 @@ def scan(port):
 
     try:
         connection.connect((target, port))
-        connection.send(b'GET HTTP/1.1\n')
-
-        banner = connection.recv(1024)
         connection.close()
-        print(f"{Fore.WHITE}Port {Fore.RED}[{port}]{Fore.WHITE} is open " + str(banner.decode('utf-8')))
-      
+        print(f"{Fore.WHITE}Port {Fore.RED}[{port}]{Fore.WHITE} is open")
         ports.append(port)
     except Exception:
         pass
-
+    
 scanned = 1
 for port in range(1, 65500):
     thread1 = threading.Thread(target=scan, args=[port])
@@ -44,6 +40,28 @@ for port in range(1, 65500):
 print(f"{scanned} ports were scanned")
 print(f'Open ports: ' + str(ports))
 
+print("\n"+str(len(ports))+ " port(s) were open")
+
+def bannergrab(port):
+    try:
+        connection = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        socket.setdefaulttimeout(1)
+        connection.connect((target, port))
+        connection.send(b'GET HTTP/1.1\n')
+        banner = connection.recv(1024)
+        print(f'[{port}] Service: '+str(banner.decode('utf-8')))
+    except Exception:
+        pass
+
+
+print(f'\n{Fore.GREEN}[+] Fetching more information...\n\n{Fore.WHITE}')
+
+for port in ports:
+    thread2 = threading.Thread(target=bannergrab, args=[port])
+    thread2.start()
+
+
+thread2.join()
 end = time.time()
 total = end - start
 print("\n"+str(total)[:4] + " Seconds")
