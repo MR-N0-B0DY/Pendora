@@ -3,7 +3,7 @@ from datetime import datetime
 from colorama import *
 
 if len(sys.argv) != 2:
-    print("This Script Requires 2 Arguments, " + str(len(sys.argv)) + " Were Given")
+    print("This Script Requires 2 Arguments, " + str(len(sys.argv)) + " Were Given\nExample: python3 script.py 127.0.0.1")
     sys.exit()
 else:
     pass
@@ -25,7 +25,7 @@ def scan(port):
 
     try:
         connection.connect((target, port))
-        connection.send(b'\nGET HTTP/1.1\n')
+        connection.send(b'GET HTTP/1.1\n')
 
         banner = connection.recv(1024)
         connection.close()
