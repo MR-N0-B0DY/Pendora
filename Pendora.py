@@ -25,7 +25,7 @@ def scan(port):
 
     try:
         connection.connect((target, port))
-        connection.send(b'GET HTTP/1.1\n')
+        connection.send(b'\nGET HTTP/1.1\n')
 
         banner = connection.recv(1024)
         connection.close()
