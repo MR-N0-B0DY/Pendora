@@ -17,6 +17,8 @@ print(ts[:31])
 print("-" * 41)
 start = time.time()
 
+if sys.argv[2] = '-Ps'
+
 ports = []
 
 def scan(port):
